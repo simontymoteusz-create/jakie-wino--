@@ -162,6 +162,109 @@
       max-width: 460px;
     }
 
+    .summary-strip {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 14px;
+      margin-bottom: 12px;
+      background: linear-gradient(120deg, rgba(248, 243, 238, 0.07), rgba(227, 139, 168, 0.08));
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+
+    .summary-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: radial-gradient(circle at 40% 30%, #f6ece4, rgba(227, 139, 168, 0.4));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 10px 16px rgba(0, 0, 0, 0.25);
+    }
+
+    .summary-text {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.5;
+    }
+
+    .preset-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 6px 0 8px;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .preset-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #e38ba8, #c8a15e);
+      box-shadow: 0 0 0 4px rgba(227, 139, 168, 0.12);
+    }
+
+    .preset-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .preset-card {
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      padding: 12px 14px;
+      background: linear-gradient(135deg, rgba(227, 139, 168, 0.12), rgba(23, 11, 31, 0.9));
+      color: rgba(255, 255, 255, 0.88);
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+      transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
+    }
+
+    .preset-card:hover,
+    .preset-card:focus-visible {
+      border-color: rgba(227, 139, 168, 0.5);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+      transform: translateY(-1px);
+      outline: none;
+    }
+
+    .preset-card.is-active {
+      border-color: rgba(227, 139, 168, 0.8);
+      box-shadow: 0 10px 24px rgba(227, 139, 168, 0.22);
+      background: linear-gradient(135deg, rgba(227, 139, 168, 0.16), rgba(248, 243, 238, 0.08));
+    }
+
+    .preset-title {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .preset-meta {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.75);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .preset-meta .pill-dot {
+      width: 6px;
+      height: 6px;
+    }
+
     .form-card {
       background: radial-gradient(circle at top left, rgba(227, 139, 168, 0.32), rgba(12, 5, 18, 0.98));
       border-radius: 22px;
@@ -634,6 +737,56 @@
         Zaznacz planowane danie, poziom intensywności i styl kolacji. Na tej podstawie
         strona zaproponuje kolor wina, szczep, kraj, styl, smak i krótkie wskazówki.
       </p>
+
+      <div class="summary-strip">
+        <div class="summary-icon">✨</div>
+        <div class="summary-text" id="selectionSummary">
+          Wybierz danie, intensywność oraz nastrój kolacji – na bieżąco zobaczysz, jak układa się dopasowanie.
+        </div>
+      </div>
+
+      <div class="preset-header">
+        <div class="preset-dot"></div>
+        <span>Szybkie inspiracje</span>
+      </div>
+
+      <div class="preset-grid" id="presetGrid" aria-label="Wybierz gotową konfigurację">
+        <button class="preset-card" type="button" data-preset="steakNight">
+          <div class="preset-title">Stek & znajomi</div>
+          <div class="preset-meta">
+            <span class="pill-dot pill-dot--style"></span>
+            wyraziste • spotkanie
+          </div>
+          <div class="preset-meta">
+            <span class="pill-dot pill-dot--grape"></span>
+            czerwone wino do wołowiny
+          </div>
+        </button>
+
+        <button class="preset-card" type="button" data-preset="seafoodDate">
+          <div class="preset-title">Owoce morza na randkę</div>
+          <div class="preset-meta">
+            <span class="pill-dot pill-dot--sweetness"></span>
+            lekkie • randkowy klimat
+          </div>
+          <div class="preset-meta">
+            <span class="pill-dot pill-dot--body"></span>
+            białe lub musujące
+          </div>
+        </button>
+
+        <button class="preset-card" type="button" data-preset="pastaCasual">
+          <div class="preset-title">Makaron w tygodniu</div>
+          <div class="preset-meta">
+            <span class="pill-dot pill-dot--country"></span>
+            średnie • na luzie
+          </div>
+          <div class="preset-meta">
+            <span class="pill-dot pill-dot--grape"></span>
+            pomidorowy lub kremowy sos
+          </div>
+        </button>
+      </div>
 
       <div class="form-card">
         <div class="form-row">
@@ -1183,6 +1336,47 @@
       }
     };
 
+    const dishLabels = {
+      steak: "Wołowina / stek",
+      poultry: "Drób pieczony lub duszony",
+      pork: "Wieprzowina i dania BBQ",
+      white_fish: "Delikatna biała ryba",
+      fatty_fish: "Tłustsza ryba",
+      seafood: "Owoce morza",
+      tomato_pasta: "Makaron z sosem pomidorowym",
+      cream_pasta: "Makaron kremowy",
+      pizza: "Pizza",
+      spicy_asian: "Pikantna kuchnia azjatycka",
+      mexican: "Kuchnia meksykańska",
+      mediterranean: "Styl śródziemnomorski",
+      salad_light: "Lekka sałatka",
+      vege_rich: "Syte danie wege",
+      soft_cheese: "Miękkie sery",
+      hard_cheese: "Sery dojrzewające",
+      chocolate_dessert: "Deser czekoladowy",
+      fruit_dessert: "Deser owocowy",
+      aperitif: "Aperitif / przekąski",
+      grill: "Grill / BBQ"
+    };
+
+    const presets = {
+      steakNight: {
+        dish: "steak",
+        intensity: "3",
+        occasion: "friends"
+      },
+      seafoodDate: {
+        dish: "seafood",
+        intensity: "1",
+        occasion: "date"
+      },
+      pastaCasual: {
+        dish: "tomato_pasta",
+        intensity: "2",
+        occasion: "casual"
+      }
+    };
+
     const dishSelect = document.getElementById("dish");
     const intensityInput = document.getElementById("intensity");
     const occasionSelect = document.getElementById("occasion");
@@ -1192,6 +1386,10 @@
     const labelColor = document.getElementById("labelColor");
     const resultTitle = document.getElementById("resultTitle");
     const resultSubtitle = document.getElementById("resultSubtitle");
+
+    const selectionSummary = document.getElementById("selectionSummary");
+
+    const presetButtons = document.querySelectorAll("[data-preset]");
 
     const pillRow = document.getElementById("pillRow");
     const pillColor = document.getElementById("pillColor");
@@ -1217,6 +1415,54 @@
       }
     }
 
+    function occasionLabel(occasion) {
+      switch (occasion) {
+        case "date":
+          return "randkowy klimat";
+        case "celebration":
+          return "uroczysta kolacja";
+        case "friends":
+          return "spotkanie ze znajomymi";
+        default:
+          return "codzienny luz";
+      }
+    }
+
+    function readableDish(dish) {
+      return dishLabels[dish] || "wybrane danie";
+    }
+
+    function updateSelectionSummary() {
+      const dish = dishSelect.value;
+      if (!dish) {
+        selectionSummary.textContent =
+          "Wybierz danie, intensywność oraz nastrój kolacji – na bieżąco zobaczysz, jak układa się dopasowanie.";
+        return;
+      }
+
+      const intensityText = intensityLabel(intensityInput.value);
+      const occasionText = occasionLabel(occasionSelect.value);
+      selectionSummary.textContent = `${readableDish(dish)} · ${intensityText} · nastrój: ${occasionText}`;
+    }
+
+    function setActivePreset(button) {
+      presetButtons.forEach((btn) => btn.classList.remove("is-active"));
+      if (button) {
+        button.classList.add("is-active");
+      }
+    }
+
+    function applyPreset(presetKey, triggerButton) {
+      const preset = presets[presetKey];
+      if (!preset) return;
+
+      dishSelect.value = preset.dish;
+      intensityInput.value = preset.intensity;
+      occasionSelect.value = preset.occasion;
+      setActivePreset(triggerButton);
+      updateResult();
+    }
+
     function occasionNote(occasion) {
       switch (occasion) {
         case "date":
@@ -1239,6 +1485,7 @@
         pillRow.style.display = "none";
         detailsSection.style.display = "none";
         emptyState.style.display = "block";
+        updateSelectionSummary();
         return;
       }
 
@@ -1267,27 +1514,50 @@
       pillRow.style.display = "flex";
       detailsSection.style.display = "block";
       emptyState.style.display = "none";
+      updateSelectionSummary();
     }
 
     suggestButton.addEventListener("click", updateResult);
+
+    presetButtons.forEach((button) => {
+      button.addEventListener("click", () => applyPreset(button.dataset.preset, button));
+    });
 
     resetButton.addEventListener("click", () => {
       dishSelect.value = "";
       intensityInput.value = 2;
       occasionSelect.value = "casual";
+      setActivePreset(null);
       resultTitle.textContent = "Wybierz posiłek, aby zobaczyć propozycję";
       resultSubtitle.textContent = "Brak danych – zacznij od wyboru dania po lewej stronie.";
       labelColor.textContent = "Wino";
       pillRow.style.display = "none";
       detailsSection.style.display = "none";
       emptyState.style.display = "block";
+      updateSelectionSummary();
     });
 
     dishSelect.addEventListener("change", () => {
+      setActivePreset(null);
       if (dishSelect.value) {
         updateResult();
+      } else {
+        updateSelectionSummary();
       }
     });
+
+    [intensityInput, occasionSelect].forEach((input) => {
+      input.addEventListener("input", () => {
+        setActivePreset(null);
+        if (dishSelect.value) {
+          updateResult();
+        } else {
+          updateSelectionSummary();
+        }
+      });
+    });
+
+    updateSelectionSummary();
   </script>
 </body>
 </html>
