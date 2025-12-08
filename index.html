@@ -710,7 +710,11 @@
       <div class="summary-strip">
         <div class="summary-icon">✨</div>
         <div class="summary-text" id="selectionSummary">
+ codex/udoskonal-strone-o-winach-gp7xz7
           Wybierz danie, nastrój kolacji oraz preferencje słodyczy, aromatu, tanin, temperatury serwowania i budżetu - na bieżąco zobaczysz, jak układa się dopasowanie.
+=======
+          Wybierz danie, intensywność oraz nastrój kolacji – na bieżąco zobaczysz, jak układa się dopasowanie.
+ main
         </div>
       </div>
 
@@ -1537,6 +1541,47 @@
       }
     };
 
+    const dishLabels = {
+      steak: "Wołowina / stek",
+      poultry: "Drób pieczony lub duszony",
+      pork: "Wieprzowina i dania BBQ",
+      white_fish: "Delikatna biała ryba",
+      fatty_fish: "Tłustsza ryba",
+      seafood: "Owoce morza",
+      tomato_pasta: "Makaron z sosem pomidorowym",
+      cream_pasta: "Makaron kremowy",
+      pizza: "Pizza",
+      spicy_asian: "Pikantna kuchnia azjatycka",
+      mexican: "Kuchnia meksykańska",
+      mediterranean: "Styl śródziemnomorski",
+      salad_light: "Lekka sałatka",
+      vege_rich: "Syte danie wege",
+      soft_cheese: "Miękkie sery",
+      hard_cheese: "Sery dojrzewające",
+      chocolate_dessert: "Deser czekoladowy",
+      fruit_dessert: "Deser owocowy",
+      aperitif: "Aperitif / przekąski",
+      grill: "Grill / BBQ"
+    };
+
+    const presets = {
+      steakNight: {
+        dish: "steak",
+        intensity: "3",
+        occasion: "friends"
+      },
+      seafoodDate: {
+        dish: "seafood",
+        intensity: "1",
+        occasion: "date"
+      },
+      pastaCasual: {
+        dish: "tomato_pasta",
+        intensity: "2",
+        occasion: "casual"
+      }
+    };
+
     const dishSelect = document.getElementById("dish");
     const sweetnessPrefSelect = document.getElementById("sweetnessPref");
     const styleFocusSelect = document.getElementById("styleFocus");
@@ -1648,6 +1693,22 @@
       }
     }
 
+codex/udoskonal-strone-o-winach-gp7xz7
+=======
+    function occasionLabel(occasion) {
+      switch (occasion) {
+        case "date":
+          return "randkowy klimat";
+        case "celebration":
+          return "uroczysta kolacja";
+        case "friends":
+          return "spotkanie ze znajomymi";
+        default:
+          return "codzienny luz";
+      }
+    }
+
+ main
     function readableDish(dish) {
       return dishLabels[dish] || "wybrane danie";
     }
@@ -1656,6 +1717,7 @@
       const dish = dishSelect.value;
       if (!dish) {
         selectionSummary.textContent =
+ codex/udoskonal-strone-o-winach-gp7xz7
           "Wybierz danie, nastrój kolacji, preferencje słodyczy, styl aromatyczny, taniny, temperaturę serwowania i budżet - zobaczysz od razu, jak układa się dopasowanie.";
         return;
       }
@@ -1667,6 +1729,15 @@
       const tanninText = tanninLabel(tanninPrefSelect.value);
       const chillText = chillLabel(chillPrefSelect.value);
       selectionSummary.textContent = `${readableDish(dish)} · nastrój: ${occasionText} · słodycz: ${sweetnessText} · styl: ${styleText} · taniny: ${tanninText} · temperatura: ${chillText} · budżet: ${budgetText}`;
+=======
+          "Wybierz danie, intensywność oraz nastrój kolacji – na bieżąco zobaczysz, jak układa się dopasowanie.";
+        return;
+      }
+
+      const intensityText = intensityLabel(intensityInput.value);
+      const occasionText = occasionLabel(occasionSelect.value);
+      selectionSummary.textContent = `${readableDish(dish)} · ${intensityText} · nastrój: ${occasionText}`;
+ main
     }
 
     function setActivePreset(button) {
@@ -1681,12 +1752,17 @@
       if (!preset) return;
 
       dishSelect.value = preset.dish;
+ codex/udoskonal-strone-o-winach-gp7xz7
       occasionSelect.value = preset.occasion;
       sweetnessPrefSelect.value = preset.sweetness;
       styleFocusSelect.value = preset.style;
       budgetSelect.value = preset.budget;
       tanninPrefSelect.value = preset.tannin || "balanced";
       chillPrefSelect.value = preset.chill || "cool";
+=======
+      intensityInput.value = preset.intensity;
+      occasionSelect.value = preset.occasion;
+ main
       setActivePreset(triggerButton);
       updateResult();
     }
@@ -1785,8 +1861,11 @@
       styleFocusSelect.value = "fruit";
       budgetSelect.value = "value";
       occasionSelect.value = "casual";
+ codex/udoskonal-strone-o-winach-gp7xz7
       tanninPrefSelect.value = "balanced";
       chillPrefSelect.value = "cool";
+=======
+ main
       setActivePreset(null);
       resultTitle.textContent = "Wybierz posiłek, aby zobaczyć propozycję";
       resultSubtitle.textContent = "Brak danych - zacznij od wyboru dania po lewej stronie.";
@@ -1806,7 +1885,11 @@
       }
     });
 
+ codex/udoskonal-strone-o-winach-gp7xz7
     [sweetnessPrefSelect, styleFocusSelect, budgetSelect, occasionSelect, tanninPrefSelect, chillPrefSelect].forEach((input) => {
+=======
+    [intensityInput, occasionSelect].forEach((input) => {
+ main
       input.addEventListener("input", () => {
         setActivePreset(null);
         if (dishSelect.value) {
