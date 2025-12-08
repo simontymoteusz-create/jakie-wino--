@@ -56,22 +56,6 @@
       overflow: hidden;
     }
 
-    .author-tag {
-      position: fixed;
-      top: 12px;
-      right: 16px;
-      z-index: 10;
-      padding: 8px 14px;
-      background: rgba(0, 0, 0, 0.45);
-      color: rgba(255, 255, 255, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 14px;
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
-      font-size: 12px;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-
     @media (max-width: 900px) {
       .app-shell {
         grid-template-columns: 1fr;
@@ -325,7 +309,8 @@
       color: rgba(255, 255, 255, 0.55);
     }
 
-    select {
+    select,
+    input[type="range"] {
       width: 100%;
       border-radius: 999px;
       border: 1px solid rgba(255, 255, 255, 0.24);
@@ -351,6 +336,53 @@
     select:focus {
       border-color: var(--accent-white);
       box-shadow: 0 0 0 1px rgba(242, 212, 143, 0.5);
+    }
+
+    input[type="range"] {
+      height: 30px;
+      padding: 0 6px;
+      background: transparent;
+    }
+
+    input[type="range"]::-webkit-slider-runnable-track {
+      height: 4px;
+      border-radius: 4px;
+      background: linear-gradient(90deg, var(--accent-green), var(--accent-white), var(--accent-rosé));
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      margin-top: -6px;
+      background: radial-gradient(circle at 30% 30%, #ffffff, #f2d48f);
+      border: 2px solid #120c16;
+      box-shadow: 0 0 0 4px rgba(248, 243, 238, 0.35);
+      cursor: pointer;
+    }
+
+    input[type="range"]::-moz-range-track {
+      height: 4px;
+      border-radius: 4px;
+      background: linear-gradient(90deg, var(--accent-green), var(--accent-white), var(--accent-rosé));
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #ffffff, #f2d48f);
+      border: 2px solid #120c16;
+      box-shadow: 0 0 0 4px rgba(248, 243, 238, 0.35);
+      cursor: pointer;
+    }
+
+    .range-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.65);
     }
 
     .chips-row {
@@ -461,7 +493,7 @@
       color: rgba(255, 255, 255, 0.6);
     }
 
-    /* PANEL PRAWY - wynik */
+    /* PANEL PRAWY – wynik */
 
     .result-card {
       background: radial-gradient(circle at bottom right, rgba(242, 212, 143, 0.25), rgba(12, 5, 18, 0.98));
@@ -686,9 +718,8 @@
     }
   </style>
 </head>
-  <body>
-  <div class="author-tag">Autor - Tymoteusz Simon</div>
-    <div class="app-shell">
+<body>
+  <div class="app-shell">
     <!-- LEWY PANEL -->
     <div class="left-panel">
       <div class="badge-row">
@@ -703,18 +734,14 @@
 
       <h1>Dobierz wino do swojego posiłku</h1>
       <p class="subtitle">
-        Zaznacz planowane danie oraz preferencje smaku, aromatu i budżetu. Na tej podstawie
+        Zaznacz planowane danie, poziom intensywności i styl kolacji. Na tej podstawie
         strona zaproponuje kolor wina, szczep, kraj, styl, smak i krótkie wskazówki.
       </p>
 
       <div class="summary-strip">
         <div class="summary-icon">✨</div>
         <div class="summary-text" id="selectionSummary">
- codex/udoskonal-strone-o-winach-gp7xz7
-          Wybierz danie, nastrój kolacji oraz preferencje słodyczy, aromatu, tanin, temperatury serwowania i budżetu - na bieżąco zobaczysz, jak układa się dopasowanie.
-=======
           Wybierz danie, intensywność oraz nastrój kolacji – na bieżąco zobaczysz, jak układa się dopasowanie.
- main
         </div>
       </div>
 
@@ -768,7 +795,7 @@
             <span class="hint">(główne danie lub motyw kolacji)</span>
           </label>
           <select id="dish">
-            <option value="">- wybierz posiłek -</option>
+            <option value="">— wybierz posiłek —</option>
             <optgroup label="Mięsa">
               <option value="steak">Wołowina / stek / czerwone mięsa</option>
               <option value="poultry">Drób pieczony / kurczak / indyk</option>
@@ -803,14 +830,6 @@
               <option value="aperitif">Aperitif / lekkie przekąski</option>
               <option value="grill">Grill / BBQ</option>
             </optgroup>
-            <optgroup label="Wybory specjalne">
-              <option value="duck">Kaczka w sosie owocowym</option>
-              <option value="lamb">Jagnięcina / baranina</option>
-              <option value="ramen">Ramen lub buliony azjatyckie</option>
-              <option value="sushi">Sushi i sashimi</option>
-              <option value="tapas">Tapas hiszpańskie</option>
-              <option value="truffle_pasta">Makaron z truflami</option>
-            </optgroup>
           </select>
 
           <div class="chips-row">
@@ -831,16 +850,16 @@
 
         <div class="form-row form-row-inline">
           <div class="form-row">
-            <label for="sweetnessPref">
-              Preferowana słodycz wina
-              <span class="hint">(profil, który najbardziej lubisz)</span>
+            <label for="intensity">
+              Intensywność dania
+              <span class="hint">(od lekkiego do cięższego)</span>
             </label>
-            <select id="sweetnessPref">
-              <option value="dry">wytrawne</option>
-              <option value="semi_dry">półwytrawne</option>
-              <option value="semi_sweet">półsłodkie</option>
-              <option value="sweet">słodkie</option>
-            </select>
+            <input type="range" id="intensity" min="1" max="3" value="2" />
+            <div class="range-labels">
+              <span>lekkie</span>
+              <span>średnie</span>
+              <span>wyraziste</span>
+            </div>
           </div>
 
           <div class="form-row">
@@ -857,63 +876,6 @@
           </div>
         </div>
 
-        <div class="form-row form-row-inline">
-          <div class="form-row">
-            <label for="styleFocus">
-              Styl aromatyczny
-              <span class="hint">(na czym ma się skupić wino)</span>
-            </label>
-            <select id="styleFocus">
-              <option value="fruit">owocowe i soczyste</option>
-              <option value="mineral">mineralne i wytrawne</option>
-              <option value="oak">kremowe, z nutą beczki</option>
-              <option value="herbal">ziołowe i przyprawowe</option>
-              <option value="sparkling">bąbelki i świeżość</option>
-            </select>
-          </div>
-
-          <div class="form-row">
-            <label for="budget">
-              Budżet za butelkę
-              <span class="hint">(orientacyjny przedział cenowy)</span>
-            </label>
-            <select id="budget">
-              <option value="value">do 40 zł</option>
-              <option value="comfort">40-70 zł</option>
-              <option value="weekend">70-120 zł</option>
-              <option value="premium">120-250 zł</option>
-              <option value="collector">powyżej 250 zł</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-row form-row-inline">
-          <div class="form-row">
-            <label for="tanninPref">
-              Poziom tanin, który lubisz
-              <span class="hint">(delikatne czy wyraziste w odbiorze)</span>
-            </label>
-            <select id="tanninPref">
-              <option value="balanced" selected>średnie</option>
-              <option value="soft">delikatne</option>
-              <option value="firm">wyraźne</option>
-            </select>
-          </div>
-
-          <div class="form-row">
-            <label for="chillPref">
-              Preferowana temperatura serwowania
-              <span class="hint">(jak lubisz podawać wino)</span>
-            </label>
-            <select id="chillPref">
-              <option value="cool" selected>chłodne / 8-12°C</option>
-              <option value="cold">mocno schłodzone</option>
-              <option value="cellar">piwniczne 12-14°C</option>
-              <option value="room">pokojowe 16-18°C</option>
-            </select>
-          </div>
-        </div>
-
         <div class="button-row">
           <button class="btn-primary" id="suggestButton">
             <span class="icon">🍷</span>
@@ -925,7 +887,7 @@
         </div>
 
         <p class="preferences-note">
-          Podpowiedzi są ogólne - w praktyce wybieraj też to, co po prostu lubisz.
+          Podpowiedzi są ogólne – w praktyce wybieraj też to, co po prostu lubisz.
         </p>
       </div>
     </div>
@@ -948,7 +910,7 @@
             <div>
               <div class="result-title" id="resultTitle">Wybierz posiłek, aby zobaczyć propozycję</div>
               <div class="result-subtitle" id="resultSubtitle">
-                Brak danych - zacznij od wyboru dania po lewej stronie.
+                Brak danych – zacznij od wyboru dania po lewej stronie.
               </div>
             </div>
           </div>
@@ -957,27 +919,27 @@
             <div class="pill">
               <span class="pill-dot pill-dot--style"></span>
               <span class="pill-label">Kolor</span>
-              <span class="pill-value" id="pillColor">-</span>
+              <span class="pill-value" id="pillColor">—</span>
             </div>
             <div class="pill">
               <span class="pill-dot pill-dot--grape"></span>
               <span class="pill-label">Szczep</span>
-              <span class="pill-value" id="pillGrape">-</span>
+              <span class="pill-value" id="pillGrape">—</span>
             </div>
             <div class="pill">
               <span class="pill-dot pill-dot--country"></span>
               <span class="pill-label">Kraj</span>
-              <span class="pill-value" id="pillCountry">-</span>
+              <span class="pill-value" id="pillCountry">—</span>
             </div>
             <div class="pill">
               <span class="pill-dot pill-dot--sweetness"></span>
               <span class="pill-label">Smak</span>
-              <span class="pill-value" id="pillSweetness">-</span>
+              <span class="pill-value" id="pillSweetness">—</span>
             </div>
             <div class="pill">
               <span class="pill-dot pill-dot--body"></span>
               <span class="pill-label">Budowa</span>
-              <span class="pill-value" id="pillBody">-</span>
+              <span class="pill-value" id="pillBody">—</span>
             </div>
           </div>
 
@@ -986,13 +948,13 @@
               <div>
                 <div class="info-section-title">Dlaczego to wino pasuje</div>
                 <p class="info-text" id="reasonText">
-                  -
+                  —
                 </p>
               </div>
               <div>
                 <div class="info-section-title">Wskazówki serwowania</div>
                 <ul class="info-list" id="tipsList">
-                  <li>-</li>
+                  <li>—</li>
                 </ul>
               </div>
             </div>
@@ -1024,11 +986,11 @@
         reason:
           "Tłuste, wyraziste czerwone mięso lubi wina o wyraźnych taninach i solidnej budowie. Cabernet Sauvignon, Malbec czy Syrah poradzą sobie z intensywnym smakiem steka, podkreślając nuty grillowania i przypraw.",
         tips: [
-          "Podawaj lekko schłodzone, około 16-18°C.",
+          "Podawaj lekko schłodzone, około 16–18°C.",
           "Wybieraj roczniki z kilku ostatnich lat, niekoniecznie bardzo stare.",
           "Dobrze sprawdzą się wina z beczki, z nutami wanilii i dymu."
         ],
-        note: "Do steków unikaj zbyt lekkich win - mogą „zniknąć” przy intensywnym mięsie."
+        note: "Do steków unikaj zbyt lekkich win – mogą „zniknąć” przy intensywnym mięsie."
       },
       poultry: {
         color: "Białe lub lekkie czerwone",
@@ -1042,11 +1004,11 @@
         reason:
           "Drób pieczony i duszony dobrze łączy się z białym winem o średniej budowie lub lekkim czerwonym. Chardonnay pasuje do sosów maślanych, a delikatny Pinot Noir odnajdzie się przy bardziej ziołowych przyprawach.",
         tips: [
-          "Chardonnay serwuj w temperaturze 10-12°C.",
-          "Lekkie czerwone (Pinot Noir) lekko schłodź do 14-16°C.",
-          "Jeśli sos jest śmietanowy, lepsze będzie białe; jeśli ziołowy - można sięgnąć po czerwone."
+          "Chardonnay serwuj w temperaturze 10–12°C.",
+          "Lekkie czerwone (Pinot Noir) lekko schłodź do 14–16°C.",
+          "Jeśli sos jest śmietanowy, lepsze będzie białe; jeśli ziołowy – można sięgnąć po czerwone."
         ],
-        note: "Przy drobiu kieruj się głównie sosem - on często „ustawia” wino."
+        note: "Przy drobiu kieruj się głównie sosem – on często „ustawia” wino."
       },
       pork: {
         color: "Czerwone lub różowe",
@@ -1062,7 +1024,7 @@
         tips: [
           "Do żeberek wybieraj wina z bardziej dojrzałym, słodkim owocem (np. Zinfandel).",
           "Rosé sprawdzi się przy lżejszych daniach z grilla.",
-          "Temperatura serwowania: 14-16°C dla czerwonych, 8-10°C dla rosé."
+          "Temperatura serwowania: 14–16°C dla czerwonych, 8–10°C dla rosé."
         ],
         note: "Przy słodkich sosach BBQ wino z odrobiną owocowej słodyczy będzie bezpieczniejsze."
       },
@@ -1078,9 +1040,9 @@
         reason:
           "Delikatne ryby potrzebują świeżości, kwasowości i dyskretnego aromatu. Rześkie białe wina z nutami cytrusów i zielonych owoców oczyszczają podniebienie i nie dominują dania.",
         tips: [
-          "Podawaj dobrze schłodzone, 8-10°C.",
-          "Świetnie zagrają nuty cytryny i limonki - w winie i w daniu.",
-          "Unikaj ciężkiego, beczkowego Chardonnay - może zdominować rybę."
+          "Podawaj dobrze schłodzone, 8–10°C.",
+          "Świetnie zagrają nuty cytryny i limonki – w winie i w daniu.",
+          "Unikaj ciężkiego, beczkowego Chardonnay – może zdominować rybę."
         ],
         note: "Zasadniczo: im delikatniejsza ryba, tym delikatniejsze i chłodniejsze wino."
       },
@@ -1092,15 +1054,15 @@
         body: "średnie / pełne",
         label: "Białe / lekkie Czerwone",
         title: "Bogatsze wino do tłustych ryb",
-        subtitle: "Łosoś czy tuńczyk spokojnie udźwigną wina bardziej złożone.",
+        subtitle: "Łosoś czy tuńczyk spokojnie udźwigną win bardziej złożone.",
         reason:
-          "Tłuste ryby lubią wina pełniejsze - z nutami masła, orzechów czy czerwonego owocu. Chardonnay z lekką beczką oraz delikatny Pinot Noir ładnie spinają tłustszą strukturę i grillowe aromaty.",
+          "Tłuste ryby lubią wina pełniejsze – z nutami masła, orzechów czy czerwonego owocu. Chardonnay z lekką beczką oraz delikatny Pinot Noir ładnie spinają tłustszą strukturę i grillowe aromaty.",
         tips: [
           "Przy łososiu z masłem wybierz beczkowe Chardonnay.",
           "Przy grillowanym łososiu dobry będzie lekko schłodzony Pinot Noir.",
-          "Podawaj białe w 10-12°C, czerwone w 14-16°C."
+          "Podawaj białe w 10–12°C, czerwone w 14–16°C."
         ],
-        note: "Jeśli na talerzu pojawia się sos śmietanowy lub grzybowy - tym bardziej warto sięgnąć po pełniejsze wino."
+        note: "Jeśli na talerzu pojawia się sos śmietanowy lub grzybowy – tym bardziej warto sięgnąć po pełniejsze wino."
       },
       seafood: {
         color: "Białe lub musujące",
@@ -1116,7 +1078,7 @@
         tips: [
           "Do ostryg wybierz maksymalnie wytrawne, mineralne wino.",
           "Musujące (np. Cava, Prosecco Brut) idealne jako aperitif do krewetek.",
-          "Podawaj w 8-10°C, mocno schłodzone."
+          "Podawaj w 8–10°C, mocno schłodzone."
         ],
         note: "Bąbelki są bardzo bezpiecznym wyborem do większości owoców morza."
       },
@@ -1132,9 +1094,9 @@
         reason:
           "Sosy pomidorowe są kwasowe, więc potrzebują wina o podobnej kwasowości, by całość była harmonijna. Włoskie czerwone wina na bazie Sangiovese czy Montepulciano świetnie podkreślają zioła i dojrzewający ser.",
         tips: [
-          "Podawaj w temperaturze 14-16°C.",
+          "Podawaj w temperaturze 14–16°C.",
           "Im więcej mięsa i sera w sosie, tym bardziej zbudowane może być wino.",
-          "Unikaj bardzo ciężkich, beczkowych potworów - mogą przytłoczyć danie."
+          "Unikaj bardzo ciężkich, beczkowych potworów – mogą przytłoczyć danie."
         ],
         note: "Klasyczne połączenie: spaghetti bolognese i Sangiovese z Toskanii."
       },
@@ -1150,9 +1112,9 @@
         reason:
           "Sosy śmietanowe i serowe lubią wina o łagodniejszej kwasowości, z nutami masła, orzechów i dojrzałych owoców. Kremowe Chardonnay czy eleganckie włoskie białe wina tworzą spójną, gładką całość.",
         tips: [
-          "Podawaj w 10-12°C.",
+          "Podawaj w 10–12°C.",
           "Jeśli sos jest bardzo ciężki, warto wybrać wino z odrobiną beczki.",
-          "Dobrze działa posypka z pieprzu - balansuje słodycz sosu i wina."
+          "Dobrze działa posypka z pieprzu – balansuje słodycz sosu i wina."
         ],
         note: "Do carbonary czy tagliatelle Alfredo lepiej wybrać wino o średniej, nie za wysokiej kwasowości."
       },
@@ -1166,13 +1128,13 @@
         title: "Luzackie wino do pizzy",
         subtitle: "Owocowe, pijalne, bez zbędnej powagi.",
         reason:
-          "Pizza łączy sos pomidorowy, ser i dodatki - to proszenie się o pijalne, nieprzesadnie ciężkie wino. Lżejsze włoskie czerwone lub wytrawne rosé świetnie podkreślą charakter dania i nadadzą mu „bistro” charakter.",
+          "Pizza łączy sos pomidorowy, ser i dodatki – to proszenie się o pijalne, nieprzesadnie ciężkie wino. Lżejsze włoskie czerwone lub wytrawne rosé świetnie podkreślą charakter dania i nadadzą mu „bistro” charakter.",
         tips: [
-          "Podawaj delikatnie schłodzone, 12-14°C.",
+          "Podawaj delikatnie schłodzone, 12–14°C.",
           "Do pizzy z salami wybierz trochę bardziej zbudowane czerwone.",
           "Do margherity czy pizzy warzywnej idealne będzie rosé."
         ],
-        note: "To moment, w którym nie musisz się spinać - ma być smacznie i swobodnie."
+        note: "To moment, w którym nie musisz się spinać – ma być smacznie i swobodnie."
       },
       spicy_asian: {
         color: "Białe półwytrawne / półsłodkie",
@@ -1187,8 +1149,8 @@
           "Pikantne dania z chili, imbirem czy curry dobrze czują się z winem, które ma trochę słodyczy i aromatyczności. Riesling czy Gewürztraminer łagodzą ostrość i podkreślają egzotyczne przyprawy.",
         tips: [
           "Wybieraj styl kabinett / off-dry (lekko słodkawy).",
-          "Podawaj dobrze schłodzone, 8-10°C.",
-          "Unikaj wysokiego alkoholu - pogłębia odczuwanie pikantności."
+          "Podawaj dobrze schłodzone, 8–10°C.",
+          "Unikaj wysokiego alkoholu – pogłębia odczuwanie pikantności."
         ],
         note: "Przy naprawdę ostrych daniach im więcej resztkowej słodyczy w winie, tym łatwiej się je pije."
       },
@@ -1204,8 +1166,8 @@
         reason:
           "Kuchnia meksykańska bywa pikantna i aromatyczna. Soczyste czerwone (Zinfandel, Garnacha) lub żywe białe (Sauvignon Blanc) dobrze znoszą przyprawy, kukurydziane placki i różne tekstury.",
         tips: [
-          "Do tacos z wołowiną wybierz czerwone, do tacos z rybą - białe.",
-          "Nie przesadzaj z beczką - za dużo wanilii może gryźć się z kolendrą i limonką.",
+          "Do tacos z wołowiną wybierz czerwone, do tacos z rybą – białe.",
+          "Nie przesadzaj z beczką – za dużo wanilii może gryźć się z kolendrą i limonką.",
           "Serwuj wina nieco chłodniejsze niż standardowo, by złagodzić ostrość."
         ],
         note: "Limona w daniu i wysoka kwasowość w winie to duet, który dobrze działa."
@@ -1218,13 +1180,13 @@
         body: "lekkie / średnie",
         label: "Białe / Czerwone",
         title: "Słoneczne wino do kuchni śródziemnomorskiej",
-        subtitle: "Oliwa, zioła, warzywa - wszystko podkreślone świeżością.",
+        subtitle: "Oliwa, zioła, warzywa – wszystko podkreślone świeżością.",
         reason:
-          "Śródziemnomorska kuchnia bazuje na oliwie, warzywach i ziołach. Wina z tych samych regionów - z dobrą kwasowością i ziołowym aromatem - naturalnie wpisują się w ten klimat.",
+          "Śródziemnomorska kuchnia bazuje na oliwie, warzywach i ziołach. Wina z tych samych regionów – z dobrą kwasowością i ziołowym aromatem – naturalnie wpisują się w ten klimat.",
         tips: [
           "Do dań warzywnych wybieraj białe, do mięs czerwone.",
-          "Podawaj lekko schłodzone: 10-12°C (białe) i 14-16°C (czerwone).",
-          "Szukaj win z wybrzeża - często mają lekką słoność i mineralność."
+          "Podawaj lekko schłodzone: 10–12°C (białe) i 14–16°C (czerwone).",
+          "Szukaj win z wybrzeża – często mają lekką słoność i mineralność."
         ],
         note: "Zasada „co rośnie razem, smakuje razem” działa tu bardzo dobrze."
       },
@@ -1241,10 +1203,10 @@
           "Sałatki, lekkie przystawki i warzywa wolą delikatne, rześkie wina, które nie przytłoczą potrawy. Kwasowość równoważy sosy winegret, a owoce podkreślają świeżość składników.",
         tips: [
           "Jeśli w sałatce jest dużo cytrusów lub pomidora, postaw na Sauvignon Blanc.",
-          "Przy sałatkach z truskawkami, arbuzem - świetne będzie rosé.",
-          "Podawaj mocno schłodzone, 8-10°C."
+          "Przy sałatkach z truskawkami, arbuzem – świetne będzie rosé.",
+          "Podawaj mocno schłodzone, 8–10°C."
         ],
-        note: "Uważaj na sosy na bazie octu balsamicznego - potrafią zdominować każde wino."
+        note: "Uważaj na sosy na bazie octu balsamicznego – potrafią zdominować każde wino."
       },
       vege_rich: {
         color: "Białe lub czerwone średniej budowy",
@@ -1260,7 +1222,7 @@
         tips: [
           "Do risotto z grzybami wybierz białe z beczką lub lekkie czerwone.",
           "Do zapiekanek z serem dobrze sprawdzą się wina o kremowej teksturze.",
-          "Temperatura: 10-12°C (białe), 14-16°C (czerwone)."
+          "Temperatura: 10–12°C (białe), 14–16°C (czerwone)."
         ],
         note: "Grzyby i wina z nutą ziemistości to zawsze dobry trop."
       },
@@ -1277,8 +1239,8 @@
           "Miękkie sery lubią kremowe białe wina oraz wina musujące. Kwasowość i bąbelki odświeżają podniebienie i przełamują tłustość sera.",
         tips: [
           "Do brie i camembert wybierz Crémant lub Champagne-style wino.",
-          "Podawaj w około 8-10°C.",
-          "Pozostaw sery w temperaturze pokojowej przed podaniem - wtedy lepiej smakują."
+          "Podawaj w około 8–10°C.",
+          "Pozostaw sery w temperaturze pokojowej przed podaniem – wtedy lepiej smakują."
         ],
         note: "Klasyk: brie + szampan lub dobre, wytrawne wino musujące."
       },
@@ -1296,7 +1258,7 @@
         tips: [
           "Do parmezanu sprawdzą się strukturalne czerwone wina.",
           "Do serów niebieskich (gorgonzola, roquefort) wybierz słodkie porto.",
-          "Podawaj czerwone w 16-18°C, porto nieco chłodniejsze (12-14°C)."
+          "Podawaj czerwone w 16–18°C, porto nieco chłodniejsze (12–14°C)."
         ],
         note: "Kontrast słodyczy porto i słoności sera pleśniowego bywa uzależniający."
       },
@@ -1312,11 +1274,11 @@
         reason:
           "Desery czekoladowe są ciężkie i gorzkawo-słodkie, dlatego wymagają win o dużej koncentracji i wyraźnej słodyczy. Porto czy czerwone wina deserowe mają dość mocy, aby nie zniknąć przy czekoladzie.",
         tips: [
-          "Podawaj lekko schłodzone, 12-14°C.",
+          "Podawaj lekko schłodzone, 12–14°C.",
           "Wybieraj style z nutami kakao, kawy i suszonych owoców.",
-          "Unikaj wytrawnych win - przy czekoladzie będą wydawać się ostre i kwaśne."
+          "Unikaj wytrawnych win – przy czekoladzie będą wydawać się ostre i kwaśne."
         ],
-        note: "Zasada: wino powinno być przynajmniej tak słodkie jak deser - inaczej wyda się cierpkie."
+        note: "Zasada: wino powinno być przynajmniej tak słodkie jak deser – inaczej wyda się cierpkie."
       },
       fruit_dessert: {
         color: "Białe słodkie lub półsłodkie",
@@ -1328,13 +1290,13 @@
         title: "Lekkie, słodkie wino do deserów owocowych",
         subtitle: "Owoc do owocu, bąbelki jako bonus.",
         reason:
-          "Desery owocowe lubią wina, które powtarzają ich charakter - lekkie, aromatyczne, o wyraźnej słodyczy i kwasowości. Moscato czy późny zbiór Rieslinga idealnie wpisują się w ten profil.",
+          "Desery owocowe lubią wina, które powtarzają ich charakter – lekkie, aromatyczne, o wyraźnej słodyczy i kwasowości. Moscato czy późny zbiór Rieslinga idealnie wpisują się w ten profil.",
         tips: [
-          "Podawaj mocno schłodzone, 6-8°C.",
+          "Podawaj mocno schłodzone, 6–8°C.",
           "Do cytrusowych deserów wybierz wina o wyższej kwasowości.",
           "Delikatne bąbelki w Moscato d’Asti świetnie odświeżają podniebienie."
         ],
-        note: "Jeśli deser jest bardzo lekki, nie wybieraj zbyt syropowych win - mogą go przytłoczyć."
+        note: "Jeśli deser jest bardzo lekki, nie wybieraj zbyt syropowych win – mogą go przytłoczyć."
       },
       aperitif: {
         color: "Musujące lub lekkie białe",
@@ -1348,9 +1310,9 @@
         reason:
           "Aperitif ma pobudzać apetyt i wprowadzać w nastrój. Lekkie, rześkie wina musujące lub białe z dobrą kwasowością świetnie sprawdzają się przed właściwym posiłkiem.",
         tips: [
-          "Podawaj dobrze schłodzone, 6-8°C.",
+          "Podawaj dobrze schłodzone, 6–8°C.",
           "Sprawdzą się oliwki, chipsy, drobne przekąski obok.",
-          "Nie musisz wybierać bardzo skomplikowanego wina - liczy się świeżość."
+          "Nie musisz wybierać bardzo skomplikowanego wina – liczy się świeżość."
         ],
         note: "Jeśli planujesz dłuższy wieczór, wybierz wino o niższym alkoholu."
       },
@@ -1366,178 +1328,11 @@
         reason:
           "Grill to mieszanka smaków: mięsa, warzyw, marynat, dymu. Soczyste czerwone i wyraziste rosé o dobrej owocowości idealnie wpisują się w swobodną atmosferę i intensywne aromaty.",
         tips: [
-          "Podawaj nieco schłodzone - 12-14°C, szczególnie na zewnątrz.",
+          "Podawaj nieco schłodzone – 12–14°C, szczególnie na zewnątrz.",
           "Do kiełbasek i karkówki wybierz wina z nutą dymu i przypraw.",
           "Rosé świetnie zagra przy warzywach i lżejszych mięsach (kurczak, indyk)."
         ],
-        note: "To moment na wina \"bez zadęcia\" - pijalne, soczyste i przyjazne."
-      },
-      duck: {
-        color: "Czerwone średnie lub białe z beczką",
-        grape: "Pinot Noir, Merlot, dojrzewające Chardonnay",
-        country: "Francja, Nowa Zelandia, USA",
-        sweetness: "wytrawne / półwytrawne",
-        body: "średnie",
-        label: "Czerwone / Białe",
-        title: "Wino do kaczki z owocowym akcentem",
-        subtitle: "Słodycz sosu owocowego lubi miękkie taniny i nuty beczki.",
-        reason:
-          "Kaczka ma delikatnie tłuste mięso i często podawana jest z owocami. Pinot Noir z wyraźną kwasowością lub kremowe Chardonnay z beczką balansują słodycz sosu i miękkość mięsa.",
-        tips: [
-          "Serwuj czerwone w 14-16°C, białe w 10-12°C.",
-          "Wybieraj wina z nutą wiśni, malin lub pieczonych jabłek.",
-          "Jeśli sos jest bardzo słodki, dołóż lekko słodszy styl wina."
-        ],
-        note: "Pinot Noir z Burgundii lub Nowej Zelandii pięknie podkreśli kaczego confit."
-      },
-      lamb: {
-        color: "Czerwone, strukturalne",
-        grape: "Syrah, Tempranillo, Bordeaux blends",
-        country: "Francja, Hiszpania, Włochy",
-        sweetness: "wytrawne",
-        body: "pełne",
-        label: "Czerwone",
-        title: "Mocne czerwone do jagnięciny",
-        subtitle: "Zioła i tłustość mięsa potrzebują tanin i przypraw.",
-        reason:
-          "Jagnięcina ma charakterystyczny, ziołowy smak i sporą strukturę. Syrah, Rioja Reserva czy bordoskie kupaże dają taniny, przyprawy i czarną porzeczkę, które podkreślą smak mięsa.",
-        tips: [
-          "Temperatura: 16-18°C, karaferuj młodsze butelki.",
-          "Do ziół prowansalskich wybierz Syrah, do czosnkowych marynat - Rioja.",
-          "Unikaj bardzo lekkich czerwonych, bo zginą przy jagnięcinie."
-        ],
-        note: "Jeśli danie jest bardzo korzenne, sprawdzi się też wino z Gruzji (Saperavi)."
-      },
-      ramen: {
-        color: "Białe aromatyczne lub lekkie czerwone",
-        grape: "Riesling, Gewürztraminer, Gamay",
-        country: "Niemcy, Francja, Japonia",
-        sweetness: "półwytrawne / wytrawne",
-        body: "lekkie / średnie",
-        label: "Białe / Lekkie czerwone",
-        title: "Wino do bulionów i ramenu",
-        subtitle: "Umami i sól potrzebują kwasowości i aromatu.",
-        reason:
-          "Bulion o głębokim smaku i dodatek sosu sojowego lub miso wymagają wina o wysokiej kwasowości i aromacie. Półwytrawny Riesling lub lekki Gamay odświeżają podniebienie i nie kłócą się z umami.",
-        tips: [
-          "Podawaj białe w 8-10°C, czerwone w 12-14°C.",
-          "Do pikantnych wersji wybierz lekko słodszy styl.",
-          "Unikaj mocno tanicznych win, które zaostrzą słoność."
-        ],
-        note: "Jeśli ramen ma dużo chili, dobierz wino z niższym alkoholem i delikatną słodyczą."
-      },
-      sushi: {
-        color: "Białe mineralne lub musujące",
-        grape: "Sauvignon Blanc, Riesling, Champagne blends",
-        country: "Francja, Niemcy, Nowa Zelandia",
-        sweetness: "wytrawne",
-        body: "lekkie",
-        label: "Białe / Musujące",
-        title: "Krystaliczne wino do sushi",
-        subtitle: "Świeżość i sól ryby lubią cytrus i bąbelki.",
-        reason:
-          "Surowa ryba i ryż z octem potrzebują wina o czystym, mineralnym profilu. Sauvignon Blanc lub lekko musujące wina utrzymują świeżość i nie dominują delikatnych smaków.",
-        tips: [
-          "Podawaj mocno schłodzone - 6-8°C.",
-          "Jeśli w daniu jest dużo sosu sojowego, wybierz wino o wyższej kwasowości.",
-          "Do ostrych sosów użyj off-dry Rieslinga."
-        ],
-        note: "Wasabi potrafi podbić pikantność - bąbelki lub lekka słodycz to złagodzą."
-      },
-      tapas: {
-        color: "Czerwone, białe lub sherry",
-        grape: "Garnacha, Verdejo, Palomino",
-        country: "Hiszpania",
-        sweetness: "wytrawne",
-        body: "lekkie / średnie",
-        label: "Elastyczne",
-        title: "Uniwersalne wino do tapas",
-        subtitle: "Wiele małych dań wymaga wszechstronności.",
-        reason:
-          "Tapas łączą słone, smażone i marynowane przekąski. Lekkie czerwone, rześkie białe albo wytrawne sherry mają dość kwasowości i umami, aby pasować do oliwek, anchois czy chorizo.",
-        tips: [
-          "Podawaj białe w 8-10°C, czerwone w 12-14°C.",
-          "Do oliwek i marynat wybierz fino lub manzanilla.",
-          "Przy pikantnej chorizo sprawdzi się młoda Garnacha."
-        ],
-        note: "Sherry fino to sekretny sprzymierzeniec tapas - wytrawne, słone, pełne umami."
-      },
-      truffle_pasta: {
-        color: "Białe kremowe lub czerwone ziemiste",
-        grape: "Chardonnay z beczką, Barolo/Barbaresco, Pinot Noir",
-        country: "Włochy, Francja",
-        sweetness: "wytrawne",
-        body: "średnie / pełne",
-        label: "Białe / Czerwone",
-        title: "Wino do makaronu z truflami",
-        subtitle: "Trufle lubią kremowość i nuty ziemiste.",
-        reason:
-          "Aromat trufli jest głęboki i ziemisty. Kremowe Chardonnay lub eleganckie Nebbiolo (Barolo/Barbaresco) podkreślają umami i dodają struktury, nie przykrywając dania.",
-        tips: [
-          "Temperatura: białe 10-12°C, czerwone 16°C.",
-          "Do czarnych trufli wybierz czerwone z delikatnymi taninami.",
-          "Do białych trufli świetnie sprawdzi się bogate Chardonnay."
-        ],
-        note: "Unikaj win o mocnych nutach owoców tropikalnych - zabiją subtelność trufli."
-      }
-    };
-
-    const dishLabels = {
-      steak: "Wołowina / stek",
-      poultry: "Drób pieczony lub duszony",
-      pork: "Wieprzowina i dania BBQ",
-      white_fish: "Delikatna biała ryba",
-      fatty_fish: "Tłustsza ryba",
-      seafood: "Owoce morza",
-      tomato_pasta: "Makaron z sosem pomidorowym",
-      cream_pasta: "Makaron kremowy",
-      pizza: "Pizza",
-      spicy_asian: "Pikantna kuchnia azjatycka",
-      mexican: "Kuchnia meksykańska",
-      mediterranean: "Styl śródziemnomorski",
-      salad_light: "Lekka sałatka",
-      vege_rich: "Syte danie wege",
-      soft_cheese: "Miękkie sery",
-      hard_cheese: "Sery dojrzewające",
-      chocolate_dessert: "Deser czekoladowy",
-      fruit_dessert: "Deser owocowy",
-      aperitif: "Aperitif / przekąski",
-      grill: "Grill / BBQ",
-      duck: "Kaczka w sosie owocowym",
-      lamb: "Jagnięcina / baranina",
-      ramen: "Ramen lub buliony",
-      sushi: "Sushi i sashimi",
-      tapas: "Tapas",
-      truffle_pasta: "Makaron z truflami"
-    };
-
-    const presets = {
-      steakNight: {
-        dish: "steak",
-        occasion: "friends",
-        sweetness: "dry",
-        style: "oak",
-        budget: "premium",
-        tannin: "firm",
-        chill: "cellar"
-      },
-      seafoodDate: {
-        dish: "seafood",
-        occasion: "date",
-        sweetness: "semi_dry",
-        style: "mineral",
-        budget: "weekend",
-        tannin: "soft",
-        chill: "cool"
-      },
-      pastaCasual: {
-        dish: "tomato_pasta",
-        occasion: "casual",
-        sweetness: "dry",
-        style: "herbal",
-        budget: "comfort",
-        tannin: "balanced",
-        chill: "room"
+        note: "To moment na wina „bez zadęcia” – pijalne, soczyste i przyjazne."
       }
     };
 
@@ -1583,12 +1378,8 @@
     };
 
     const dishSelect = document.getElementById("dish");
-    const sweetnessPrefSelect = document.getElementById("sweetnessPref");
-    const styleFocusSelect = document.getElementById("styleFocus");
-    const budgetSelect = document.getElementById("budget");
+    const intensityInput = document.getElementById("intensity");
     const occasionSelect = document.getElementById("occasion");
-    const tanninPrefSelect = document.getElementById("tanninPref");
-    const chillPrefSelect = document.getElementById("chillPref");
     const suggestButton = document.getElementById("suggestButton");
     const resetButton = document.getElementById("resetButton");
 
@@ -1613,6 +1404,17 @@
     const footNote = document.getElementById("footNote");
     const emptyState = document.getElementById("emptyState");
 
+    function intensityLabel(value) {
+      switch (String(value)) {
+        case "1":
+          return "lekkie danie";
+        case "3":
+          return "bardzo wyraziste danie";
+        default:
+          return "średnio intensywne danie";
+      }
+    }
+
     function occasionLabel(occasion) {
       switch (occasion) {
         case "date":
@@ -1626,89 +1428,6 @@
       }
     }
 
-    function sweetnessPreferenceLabel(value) {
-      switch (value) {
-        case "semi_dry":
-          return "półwytrawne";
-        case "semi_sweet":
-          return "półsłodkie";
-        case "sweet":
-          return "słodsze";
-        default:
-          return "wytrawne";
-      }
-    }
-
-    function styleFocusLabel(value) {
-      switch (value) {
-        case "mineral":
-          return "mineralne i smukłe";
-        case "oak":
-          return "kremowe, z nutą beczki";
-        case "herbal":
-          return "ziołowe i przyprawowe";
-        case "sparkling":
-          return "bąbelki i rześkość";
-        default:
-          return "owocowe i soczyste";
-      }
-    }
-
-    function budgetLabel(value) {
-      switch (value) {
-        case "comfort":
-          return "40-70 zł";
-        case "weekend":
-          return "70-120 zł";
-        case "premium":
-          return "120-250 zł";
-        case "collector":
-          return "250+ zł";
-        default:
-          return "do 40 zł";
-      }
-    }
-
-    function tanninLabel(value) {
-      switch (value) {
-        case "balanced":
-          return "średnie taniny";
-        case "firm":
-          return "wyraźne taniny";
-        default:
-          return "delikatne taniny";
-      }
-    }
-
-    function chillLabel(value) {
-      switch (value) {
-        case "cold":
-          return "mocno schłodzone";
-        case "cellar":
-          return "piwniczne 12-14°C";
-        case "room":
-          return "pokojowe 16-18°C";
-        default:
-          return "chłodne 8-12°C";
-      }
-    }
-
-codex/udoskonal-strone-o-winach-gp7xz7
-=======
-    function occasionLabel(occasion) {
-      switch (occasion) {
-        case "date":
-          return "randkowy klimat";
-        case "celebration":
-          return "uroczysta kolacja";
-        case "friends":
-          return "spotkanie ze znajomymi";
-        default:
-          return "codzienny luz";
-      }
-    }
-
- main
     function readableDish(dish) {
       return dishLabels[dish] || "wybrane danie";
     }
@@ -1717,19 +1436,6 @@ codex/udoskonal-strone-o-winach-gp7xz7
       const dish = dishSelect.value;
       if (!dish) {
         selectionSummary.textContent =
- codex/udoskonal-strone-o-winach-gp7xz7
-          "Wybierz danie, nastrój kolacji, preferencje słodyczy, styl aromatyczny, taniny, temperaturę serwowania i budżet - zobaczysz od razu, jak układa się dopasowanie.";
-        return;
-      }
-
-      const occasionText = occasionLabel(occasionSelect.value);
-      const sweetnessText = sweetnessPreferenceLabel(sweetnessPrefSelect.value);
-      const styleText = styleFocusLabel(styleFocusSelect.value);
-      const budgetText = budgetLabel(budgetSelect.value);
-      const tanninText = tanninLabel(tanninPrefSelect.value);
-      const chillText = chillLabel(chillPrefSelect.value);
-      selectionSummary.textContent = `${readableDish(dish)} · nastrój: ${occasionText} · słodycz: ${sweetnessText} · styl: ${styleText} · taniny: ${tanninText} · temperatura: ${chillText} · budżet: ${budgetText}`;
-=======
           "Wybierz danie, intensywność oraz nastrój kolacji – na bieżąco zobaczysz, jak układa się dopasowanie.";
         return;
       }
@@ -1737,7 +1443,6 @@ codex/udoskonal-strone-o-winach-gp7xz7
       const intensityText = intensityLabel(intensityInput.value);
       const occasionText = occasionLabel(occasionSelect.value);
       selectionSummary.textContent = `${readableDish(dish)} · ${intensityText} · nastrój: ${occasionText}`;
- main
     }
 
     function setActivePreset(button) {
@@ -1752,17 +1457,8 @@ codex/udoskonal-strone-o-winach-gp7xz7
       if (!preset) return;
 
       dishSelect.value = preset.dish;
- codex/udoskonal-strone-o-winach-gp7xz7
-      occasionSelect.value = preset.occasion;
-      sweetnessPrefSelect.value = preset.sweetness;
-      styleFocusSelect.value = preset.style;
-      budgetSelect.value = preset.budget;
-      tanninPrefSelect.value = preset.tannin || "balanced";
-      chillPrefSelect.value = preset.chill || "cool";
-=======
       intensityInput.value = preset.intensity;
       occasionSelect.value = preset.occasion;
- main
       setActivePreset(triggerButton);
       updateResult();
     }
@@ -1772,11 +1468,11 @@ codex/udoskonal-strone-o-winach-gp7xz7
         case "date":
           return "Na randkę możesz wybrać odrobinę bardziej elegancką butelkę z tej samej kategorii.";
         case "celebration":
-          return "Przy okazji świętowania postaw na lepszego producenta lub rocznik - to podniesie rangę chwili.";
+          return "Przy okazji świętowania postaw na lepszego producenta lub rocznik – to podniesie rangę chwili.";
         case "friends":
           return "Na spotkanie ze znajomymi lepiej sprawdzą się wina łatwe do picia i zrozumiałe dla większości osób.";
         default:
-          return "Na co dzień wybieraj wina, które po prostu sprawiają Ci przyjemność - nie muszą być skomplikowane.";
+          return "Na co dzień wybieraj wina, które po prostu sprawiają Ci przyjemność – nie muszą być skomplikowane.";
       }
     }
 
@@ -1784,7 +1480,7 @@ codex/udoskonal-strone-o-winach-gp7xz7
       const dish = dishSelect.value;
       if (!dish || !pairings[dish]) {
         resultTitle.textContent = "Wybierz posiłek, aby zobaczyć propozycję";
-        resultSubtitle.textContent = "Brak danych - zacznij od wyboru dania po lewej stronie.";
+        resultSubtitle.textContent = "Brak danych – zacznij od wyboru dania po lewej stronie.";
         labelColor.textContent = "Wino";
         pillRow.style.display = "none";
         detailsSection.style.display = "none";
@@ -1794,12 +1490,8 @@ codex/udoskonal-strone-o-winach-gp7xz7
       }
 
       const data = pairings[dish];
+      const intensityText = intensityLabel(intensityInput.value);
       const noteText = occasionNote(occasionSelect.value);
-      const sweetnessText = sweetnessPreferenceLabel(sweetnessPrefSelect.value);
-      const styleText = styleFocusLabel(styleFocusSelect.value);
-      const budgetText = budgetLabel(budgetSelect.value);
-      const tanninText = tanninLabel(tanninPrefSelect.value);
-      const chillText = chillLabel(chillPrefSelect.value);
 
       resultTitle.textContent = data.title;
       resultSubtitle.textContent = data.subtitle;
@@ -1811,38 +1503,14 @@ codex/udoskonal-strone-o-winach-gp7xz7
       pillSweetness.textContent = data.sweetness;
       pillBody.textContent = data.body;
 
-      reasonText.textContent =
-        data.reason +
-        " Uwzględniam Twoje preferencje: " +
-        styleText +
-        ", słodycz " +
-        sweetnessText +
-        ", " +
-        tanninText +
-        ", serwowanie " +
-        chillText +
-        ", budżet " +
-        budgetText +
-        ". Dzięki temu łatwiej wybrać producenta i styl, który wpisze się w Twój plan.";
+      reasonText.textContent = data.reason + " Twój wybór opisano jako " + intensityText + ", więc to zestawienie powinno być dobrze wyważone.";
       tipsList.innerHTML = "";
       data.tips.forEach((tip) => {
         const li = document.createElement("li");
         li.textContent = tip;
         tipsList.appendChild(li);
       });
-      footNote.textContent =
-        noteText +
-        " Budżet: " +
-        budgetText +
-        ", słodycz: " +
-        sweetnessText +
-        ", styl: " +
-        styleText +
-        ", taniny: " +
-        tanninText +
-        ", serwowanie: " +
-        chillText +
-        ".";
+      footNote.textContent = noteText;
       pillRow.style.display = "flex";
       detailsSection.style.display = "block";
       emptyState.style.display = "none";
@@ -1857,18 +1525,11 @@ codex/udoskonal-strone-o-winach-gp7xz7
 
     resetButton.addEventListener("click", () => {
       dishSelect.value = "";
-      sweetnessPrefSelect.value = "dry";
-      styleFocusSelect.value = "fruit";
-      budgetSelect.value = "value";
+      intensityInput.value = 2;
       occasionSelect.value = "casual";
- codex/udoskonal-strone-o-winach-gp7xz7
-      tanninPrefSelect.value = "balanced";
-      chillPrefSelect.value = "cool";
-=======
- main
       setActivePreset(null);
       resultTitle.textContent = "Wybierz posiłek, aby zobaczyć propozycję";
-      resultSubtitle.textContent = "Brak danych - zacznij od wyboru dania po lewej stronie.";
+      resultSubtitle.textContent = "Brak danych – zacznij od wyboru dania po lewej stronie.";
       labelColor.textContent = "Wino";
       pillRow.style.display = "none";
       detailsSection.style.display = "none";
@@ -1885,11 +1546,7 @@ codex/udoskonal-strone-o-winach-gp7xz7
       }
     });
 
- codex/udoskonal-strone-o-winach-gp7xz7
-    [sweetnessPrefSelect, styleFocusSelect, budgetSelect, occasionSelect, tanninPrefSelect, chillPrefSelect].forEach((input) => {
-=======
     [intensityInput, occasionSelect].forEach((input) => {
- main
       input.addEventListener("input", () => {
         setActivePreset(null);
         if (dishSelect.value) {
